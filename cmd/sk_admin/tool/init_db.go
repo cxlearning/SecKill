@@ -1,12 +1,13 @@
-package sk_admin
+package tool
 
 import (
 	"github.com/urfave/cli"
 	"myProject/SecKill/sk_admin/setup"
 )
-var AdminServer = cli.Command{
-	Name:  "ad_server",
-	Usage: "sk_admin server",
+
+var AdInit = cli.Command{
+	Name:  "ad_init",
+	Usage: "init db",
 	Flags: []cli.Flag{
 		cli.StringFlag{
 			Name:  "conf, c",
@@ -23,9 +24,5 @@ var AdminServer = cli.Command{
 }
 
 func run(c *cli.Context) {
-	setup.Run(c.String("conf"))
+	setup.InitDB(c.String("conf"))
 }
-
-
-
-
