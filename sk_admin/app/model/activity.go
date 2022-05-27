@@ -15,7 +15,7 @@ type ActivityCreatReq struct {
 /**
 etcd 中存储的数据结构
 */
-type SecActivityInfoConf struct {
+type SecProductInfoConf struct {
 	ProductId         string  `json:"product_id"`           //商品Id
 	StartTime         int64   `json:"start_time"`           //开始时间
 	EndTime           int64   `json:"end_time"`             //结束时间

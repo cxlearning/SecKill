@@ -45,11 +45,11 @@ func (a *activityService) Creat(req model.ActivityCreatReq) error {
 
 func (a *activityService) syncToEtcd(activity dao.Activity) error {
 
-	activityInfoList, err := a.loadActivityListFromEtcd(conf.Config.Etcd.EtcdSecActivityKey)
+	productInfoList, err := a.loadProductListFromEtcd(conf.Config.Etcd.EtcdSecActivityKey)
 	if err != nil {
 		return err
 	}
-	actInfo := model.SecActivityInfoConf{
+	proInfo := model.SecProductInfoConf{
 		ProductId:         activity.ProductId,
 		StartTime:         activity.StartTime,
 		EndTime:           activity.EndTime,
@@ -60,9 +60,9 @@ func (a *activityService) syncToEtcd(activity dao.Activity) error {
 		BuyRate:           activity.BuyRate,
 		SoldMaxLimit:      activity.Speed,
 	}
-	activityInfoList = append(activityInfoList, &actInfo)
+	productInfoList = append(productInfoList, &proInfo)
 
-	data, err := json.Marshal(activityInfoList)
+	data, err := json.Marshal(productInfoList)
 	if err != nil {
 		log.Printf("json marshal failed, err : %v", err)
 		return err
@@ -79,8 +79,8 @@ func (a *activityService) syncToEtcd(activity dao.Activity) error {
 
 }
 
-//从Ectd中取出原来的活动数据
-func (a *activityService) loadActivityListFromEtcd(key string) ([]*model.SecActivityInfoConf, error) {
+//从Ectd中取出原来的商品数据
+func (a *activityService) loadProductListFromEtcd(key string) ([]*model.SecProductInfoConf, error) {
 
 	log.Println("start get from etcd")
 
@@ -90,7 +90,7 @@ func (a *activityService) loadActivityListFromEtcd(key string) ([]*model.SecActi
 		return nil, err
 	}
 
-	var secProductInfo []*model.SecActivityInfoConf
+	var secProductInfo []*model.SecProductInfoConf
 	for k, v := range resp.Kvs {
 
 		log.Printf("key = [%v], value = [%v]", k, v)
