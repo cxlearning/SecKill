@@ -18,4 +18,5 @@ func initServer(host string) {
 
 func setupRouter(router *gin.Engine) {
  	router.POST("product/creat", api.ProductApi.Creat)
+	router.POST("activity/creat", api.ActivityApi.Creat)
 }

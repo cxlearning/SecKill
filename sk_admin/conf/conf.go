@@ -22,6 +22,10 @@ type config struct {
 			MaxOpen     int
 		}
 	}
+	Etcd struct {
+		Endpoints          []string
+		EtcdSecActivityKey string // etcd中存储活动信息的key
+	}
 }
 
 var Config config
