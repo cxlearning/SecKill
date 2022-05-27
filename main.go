@@ -12,6 +12,7 @@ func main() {
 	app.Name = "gate-super-backend"
 	app.Commands = []cli.Command{
 		server.AdminServer,
+		server.LayerServer,
 		tool.AdminInit,
 	}
 
