@@ -45,7 +45,7 @@ func (a *activityService) Creat(req model.ActivityCreatReq) error {
 
 func (a *activityService) syncToEtcd(activity dao.Activity) error {
 
-	productInfoList, err := a.loadProductListFromEtcd(conf.Config.Etcd.EtcdSecActivityKey)
+	productInfoList, err := a.loadProductListFromEtcd(conf.Config.Etcd.EtcdSecProductKey)
 	if err != nil {
 		return err
 	}
@@ -68,7 +68,7 @@ func (a *activityService) syncToEtcd(activity dao.Activity) error {
 		return err
 	}
 
-	_, err = etcd.GetEtcdInstance().Put(context.Background(), conf.Config.Etcd.EtcdSecActivityKey, string(data))
+	_, err = etcd.GetEtcdInstance().Put(context.Background(), conf.Config.Etcd.EtcdSecProductKey, string(data))
 	if err != nil {
 		log.Printf("put to etcd failed, err : %v, data = [%v]", err, string(data))
 		return err
