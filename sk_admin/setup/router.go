@@ -3,6 +3,7 @@ package setup
 import (
 	"github.com/gin-gonic/gin"
 	"log"
+	"myProject/SecKill/sk_admin/app/api"
 )
 
 //初始化Http服务
@@ -16,8 +17,5 @@ func initServer(host string) {
 }
 
 func setupRouter(router *gin.Engine) {
-	router.GET("test", func(context *gin.Context) {
-
-		context.Writer.Write([]byte("success"))
-	})
+ 	router.POST("product/creat", api.ProductApi.Creat)
 }
