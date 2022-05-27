@@ -2,8 +2,8 @@
     Port = ":11081"
 
 [Database]
-HostPort = "tcp(172.20.10.20:3306)"
-UserPassword = "sendinfo:password"
+HostPort = "tcp(127.0.0.1:3306)"
+UserPassword = "user:password"
 DB = "secKill"
 [Database.Conn]
     MaxLifeTime = 600
