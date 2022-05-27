@@ -24,7 +24,7 @@ type config struct {
 	}
 	Etcd struct {
 		Endpoints          []string
-		EtcdSecActivityKey string // etcd中存储活动信息的key
+		EtcdSecProductKey string // etcd中存储商品信息的key
 	}
 }
 
