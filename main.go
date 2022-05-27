@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/urfave/cli"
-	"myProject/SecKill/cmd/sk_admin/server"
-	"myProject/SecKill/cmd/sk_admin/tool"
+	"myProject/SecKill/cmd/server"
+	"myProject/SecKill/cmd/tool"
 
 	"os"
 )
@@ -13,7 +13,7 @@ func main() {
 	app.Name = "gate-super-backend"
 	app.Commands = []cli.Command{
 		server.AdminServer,
-		tool.AdInit,
+		tool.AdminInit,
 	}
 
 	err := app.Run(os.Args)

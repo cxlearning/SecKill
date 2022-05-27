@@ -5,7 +5,7 @@ import (
 	"myProject/SecKill/sk_admin/setup"
 )
 
-var AdInit = cli.Command{
+var AdminInit = cli.Command{
 	Name:  "ad_init",
 	Usage: "init db",
 	Flags: []cli.Flag{
