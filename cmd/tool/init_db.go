@@ -14,11 +14,6 @@ var AdminInit = cli.Command{
 			Value: "config.toml",
 			Usage: "toml配置文件",
 		},
-		cli.StringFlag{
-			Name:  "args",
-			Value: "",
-			Usage: "multiconfig cmd line args",
-		},
 	},
 	Action: run,
 }
