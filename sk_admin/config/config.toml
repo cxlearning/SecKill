@@ -1,2 +1,2 @@
-Port = "11081"
-Name = "Dev"
+[Server]
+    Port = ":11081"

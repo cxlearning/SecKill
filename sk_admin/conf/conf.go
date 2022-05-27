@@ -8,8 +8,11 @@ import (
 )
 
 type config struct {
-	Port int
-	Name string
+
+	Server struct{
+		Port string
+	}
+
 }
 
 var Config config
