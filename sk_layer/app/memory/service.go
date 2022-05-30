@@ -3,6 +3,7 @@ package memory
 import (
 	"context"
 	"encoding/json"
+	"go.etcd.io/etcd/api/v3/mvccpb"
 	"log"
 	"myProject/SecKill/sk_layer/conf"
 	"myProject/SecKill/sk_layer/library/etcd"
@@ -39,7 +40,7 @@ func loadProductListFromEtcd(key string) error {
 	// 更新内存
 	updatProducts(secProductInfoList)
 
-	// todo 热更新
+	go watchSecProductKey()
 	return nil
 }
 
@@ -56,4 +57,37 @@ func updatProducts(products []*SecProductInfoConf) {
 
 	Mem.Products.ProductMap = m
 
+}
+
+func watchSecProductKey() {
+	key := conf.Config.Etcd.EtcdSecProductKey
+
+	watchch := etcd.GetEtcdInstance().Watch(context.Background(), key)
+
+	for _w := range watchch {
+		flag := false
+		var secProductInfoList []*SecProductInfoConf
+		for _, _e := range _w.Events { // 这里都是同一个key的事件
+			//删除事件
+			if _e.Type == mvccpb.DELETE {
+				log.Printf("key[%s] 's config deleted", key)
+				continue
+			}
+			if _e.Type == mvccpb.PUT && string(_e.Kv.Key) == key{
+				err := json.Unmarshal(_e.Kv.Value, &secProductInfoList)
+				if err != nil {
+					log.Printf("key [%s], Unmarshal[%s]. Error : %v", key, err)
+					continue
+				}
+				flag = true
+			}
+
+			if flag {
+				log.Printf("get config from etcd success, %v", secProductInfoList)
+				updatProducts(secProductInfoList)
+			}
+
+			log.Printf("get config from etcd, %s %q : %q\n", _e.Type, _e.Kv.Key, _e.Kv.Value)
+		}
+	}
 }

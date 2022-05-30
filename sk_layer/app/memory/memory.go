@@ -14,7 +14,7 @@ type Memory struct {
 	Products Products
 }
 
-//秒杀活动信息
+//秒杀活动信息，从etcd 中加载所得
 type SecProductInfoConf struct {
 	ProductId         string  `json:"product_id"`           //商品ID
 	StartTime         int64   `json:"start_time"`           //秒杀开始时间
