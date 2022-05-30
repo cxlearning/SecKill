@@ -3,6 +3,7 @@ module myProject/SecKill
 go 1.16
 
 require (
+	github.com/garyburd/redigo v1.6.3
 	github.com/gin-gonic/gin v1.7.7
 	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/viper v1.11.0

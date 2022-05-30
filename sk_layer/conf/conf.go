@@ -12,6 +12,10 @@ type config struct {
 		Endpoints         []string
 		EtcdSecProductKey string // etcd中存储商品信息的key
 	}
+
+	Redis struct {
+		HostPort string
+	}
 }
 
 var Config config

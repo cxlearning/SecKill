@@ -1,6 +1,7 @@
 package memory
 
 import (
+	"myProject/SecKill/sk_layer/conf"
 	"sync"
 )
 
@@ -9,6 +10,11 @@ var Mem Memory
 /**
 存储在内存的数据结构, 以及对其的操作均在此包
 */
+
+func Init() {
+	loadProductListFromEtcd(conf.Config.Etcd.EtcdSecProductKey)
+}
+
 
 type Memory struct {
 	Products Products
