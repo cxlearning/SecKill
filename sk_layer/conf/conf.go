@@ -20,7 +20,9 @@ type config struct {
 	}
 
 	Redis struct {
-		HostPort string
+		HostPort             string
+		Proxy2layerQueueName string //队列名称
+		Layer2proxyQueueName string //队列名称
 	}
 }
 

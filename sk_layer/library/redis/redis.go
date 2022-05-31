@@ -2,19 +2,25 @@ package redis
 
 import (
 	"fmt"
-	"github.com/garyburd/redigo/redis"
+	"github.com/go-redis/redis"
+	"log"
 	"myProject/SecKill/sk_layer/conf"
 )
 
-var conn redis.Conn
+var conn *redis.Client
 
-func GetInstance() redis.Conn {
+func GetInstance() *redis.Client {
 	return conn
 }
 func Init() {
-	var err error
-	conn, err = redis.Dial("tcp", conf.Config.Redis.HostPort)
+
+	client := redis.NewClient(&redis.Options{
+		Addr: conf.Config.Redis.HostPort,
+	})
+	_, err := client.Ping().Result()
 	if err != nil {
-		panic(fmt.Sprintf("conn redis failed, err = %s", err.Error()))
+		panic(fmt.Sprintf("Connect redis failed. Error : %v", err))
 	}
+	conn = client
+	log.Println("redis connect success")
 }
