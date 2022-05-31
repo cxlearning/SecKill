@@ -8,6 +8,12 @@ import (
 )
 
 type config struct {
+	Server struct {
+		WriteGoroutineNum      int //写操作goroutine数量控制
+		ReadGoroutineNum       int //读操作goroutine数量控制
+		HandleUserGoroutineNum int //处理用户goroutine数量控制
+	}
+
 	Etcd struct {
 		Endpoints         []string
 		EtcdSecProductKey string // etcd中存储商品信息的key
