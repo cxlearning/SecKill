@@ -63,12 +63,6 @@ func handleSkill(req *memory.SecRequest) (res *memory.SecResponse, err error) {
 
 	// todo 每秒卖出数量限制， 单人购买限制
 
-	nowTime := time.Now().Unix()
-	if !(nowTime >= product.StartTime && nowTime <= product.EndTime) {
-		res.Code = srv_err.ErrExpireTime
-		return
-	}
-
 	// 是否有货
 	count := memory.Mem.ProductSoldMgr.Count(req.ProductId)
 	if count >= product.Total {
