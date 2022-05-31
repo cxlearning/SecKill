@@ -9,9 +9,13 @@ import (
 
 type config struct {
 	Server struct {
-		WriteGoroutineNum      int //写操作goroutine数量控制
-		ReadGoroutineNum       int //读操作goroutine数量控制
-		HandleUserGoroutineNum int //处理用户goroutine数量控制
+		WriteGoroutineNum       int   //写操作goroutine数量控制
+		ReadGoroutineNum        int   //读操作goroutine数量控制
+		HandleUserGoroutineNum  int   //处理用户goroutine数量控制
+		MaxRequestWaitTimeout   int64 //最大请求等待时间
+		SendToHandleChanTimeout int64 // 请求发送到通道的超时时间
+		SendToWriteChanTimeout  int64 //响应发送到通道的超时时间
+		TokenPassWd             string
 	}
 
 	Etcd struct {

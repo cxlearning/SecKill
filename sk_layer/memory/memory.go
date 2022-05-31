@@ -13,18 +13,20 @@ var Mem Memory
 type Memory struct {
 	Products Products
 
+	ProductSoldMgr *ProductCountMgr
+
 	Read2HandleChan  chan *SecRequest
 	Handle2WriteChan chan *SecResponse
 }
 
 //请求
 type SecRequest struct {
-	ProductId     int    `json:"product_id"` //商品ID
+	ProductId     string `json:"product_id"` //商品ID
 	Source        string `json:"source"`
 	AuthCode      string `json:"auth_code"`
 	SecTime       string `json:"sec_time"`
 	Nance         string `json:"nance"`
-	UserId        int    `json:"user_id"`
+	UserId        string    `json:"user_id"`
 	UserAuthSign  string `json:"user_auth_sign"`
 	AccessTime    int64  `json:"access_time"`
 	ClientAddr    string `json:"client_addr"`
@@ -33,8 +35,8 @@ type SecRequest struct {
 
 //响应
 type SecResponse struct {
-	ProductId int    `json:"product_id"` //商品ID
-	UserId    int    `json:"user_id"`    //用户ID
+	ProductId string    `json:"product_id"` //商品ID
+	UserId    string    `json:"user_id"`    //用户ID
 	Token     string `json:"token"`      //Token
 	TokenTime int64  `json:"token_time"` //Token生成时间
 	Code      int    `json:"code"`       //状态码
@@ -47,7 +49,6 @@ type SecProductInfoConf struct {
 	EndTime           int64   `json:"end_time"`             //秒杀结束时间
 	Status            int     `json:"status"`               //状态
 	Total             int     `json:"total"`                //商品总数
-	Left              int     `json:"left"`                 //商品剩余数量
 	OnePersonBuyLimit int     `json:"one_person_buy_limit"` //单个用户购买数量限制
 	BuyRate           float64 `json:"buy_rate"`             //买中几率
 	SoldMaxLimit      int     `json:"sold_max_limit"`       //每秒最多能卖多少个
