@@ -16,4 +16,5 @@ func Run(configPath string) {
 	redis.Init()
 
 	service.Init()
+	initServer(conf.Config.Server.Port)
 }

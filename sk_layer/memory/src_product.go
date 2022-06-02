@@ -22,7 +22,7 @@ func NewProductCountMgr() *ProductCountMgr {
  */
 func (p *ProductCountMgr) Count(productId string) (count int) {
 	p.lock.RLock()
-	defer p.lock.Unlock()
+	defer p.lock.RUnlock()
 
 	count = p.productCount[productId]
 	return

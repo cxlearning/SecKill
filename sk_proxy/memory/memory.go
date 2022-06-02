@@ -20,7 +20,7 @@ type Memory struct {
 
 type UserConns struct {
 	UserConnMap map[string]chan *SecResponse // userID --> 获取结果的通道
-	Mutex       sync.RWMutex
+	Lock       sync.RWMutex
 }
 
 //请求

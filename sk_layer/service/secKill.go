@@ -15,7 +15,7 @@ import (
 从通道读req处理，将res放到通道
 */
 func HandleUser() {
-
+	log.Println("HandleUser, begin")
 	for _req := range memory.Mem.Read2HandleChan {
 		res, err := handleSkill(_req)
 		if err != nil {
@@ -25,13 +25,14 @@ func HandleUser() {
 			}
 		}
 
-		tick := time.Tick(time.Duration(conf.Config.Server.SendToWriteChanTimeout))
+		tick := time.Tick(time.Duration(conf.Config.Server.SendToWriteChanTimeout) * time.Second)
 
 		select {
 		case <-tick:
 			log.Printf("send response timeout, res = %v\n", res)
 			break
 		case memory.Mem.Handle2WriteChan <- res:
+			log.Printf("send response to chan success, req userID=%s, productID=%s", _req.UserId, _req.ProductId)
 		}
 	}
 
@@ -45,6 +46,8 @@ func handleSkill(req *memory.SecRequest) (res *memory.SecResponse, err error) {
 	//加锁获取内存中商品数据
 	memory.Mem.Products.Lock.RLock()
 	defer memory.Mem.Products.Lock.RUnlock()
+
+	res = &memory.SecResponse{}
 
 	res.ProductId = req.ProductId
 	res.UserId = req.UserId
@@ -79,6 +82,7 @@ func handleSkill(req *memory.SecRequest) (res *memory.SecResponse, err error) {
 
 	//可以买
 	memory.Mem.ProductSoldMgr.Add(req.ProductId, 1)
+	log.Println(fmt.Sprintf("productID:%s, 已售数量=%d", req.ProductId, memory.Mem.ProductSoldMgr.Count(req.ProductId)))
 
 	//用户Id、商品id、当前时间、密钥
 	res.Code = srv_err.ErrSecKillSucc
@@ -86,6 +90,6 @@ func handleSkill(req *memory.SecRequest) (res *memory.SecResponse, err error) {
 	res.Token = fmt.Sprintf("%x", md5.Sum([]byte(tokenData))) //MD5加密
 	res.TokenTime = nowTime
 
-	return
+	return res, nil
 
 }

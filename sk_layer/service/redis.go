@@ -12,6 +12,8 @@ import (
 // 从redis读req 放到channel
 func HandleReader() {
 
+	log.Println("reader begin")
+
 	conn := redis.GetInstance()
 
 	for {
@@ -37,13 +39,12 @@ func HandleReader() {
 		}
 
 		//放入通道
-		time := time.Tick(time.Duration(conf.Config.Server.SendToHandleChanTimeout))
+		time := time.Tick(time.Duration(conf.Config.Server.SendToHandleChanTimeout) * time.Second)
 
 		select {
 		case <-time:
-			log.Println()
-		case memory.Mem.Read2HandleChan <- &req:
 			log.Printf("send to handle chan timeout, req : %v", req)
+		case memory.Mem.Read2HandleChan <- &req:
 			break
 		}
 	}
@@ -51,8 +52,7 @@ func HandleReader() {
 
 // 从通道里读res 写到redis
 func HandleWrite() {
-
-	//log.Println("handle write running")
+	log.Println("HandleWrite, begin")
 
 	for _res := range memory.Mem.Handle2WriteChan {
 		err := sendToRedis(_res)
@@ -60,6 +60,7 @@ func HandleWrite() {
 			log.Printf("send to redis, err : %v, res : %v", err, _res)
 			continue
 		}
+		log.Println("send to redis success")
 	}
 
 }
