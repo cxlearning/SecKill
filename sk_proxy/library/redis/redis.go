@@ -15,7 +15,8 @@ func GetInstance() *redis.Client {
 func Init() {
 
 	client := redis.NewClient(&redis.Options{
-		Addr: conf.Config.Redis.HostPort,
+		Addr:     conf.Config.Redis.HostPort,
+		Password: conf.Config.Redis.Password,
 	})
 	_, err := client.Ping().Result()
 	if err != nil {
